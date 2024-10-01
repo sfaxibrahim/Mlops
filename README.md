@@ -1,4 +1,22 @@
+## Git 
+```bash
+git init
+git add .
+git commit -m "msg"
+git branch -M main
+git remote add origin <ssh link or http link >
+git push 
+git status
+```
+## DVC
+```bash
+dvc init
+dvc add ./data/ ./models/
+dvc remote add --default myremote gdrive://id of folder of google drive 
+dvc push 
+dvc status
 
+```
 
 
 ## For Dagshub
