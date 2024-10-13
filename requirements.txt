@@ -1,7 +1,6 @@
 pandas
 scikit-learn
 mlflow
-pytest
 dvc
 numpy 
 pytorch 

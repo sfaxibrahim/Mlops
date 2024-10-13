@@ -1,11 +1,13 @@
 ## Git 
 ```bash
 git init
+git fetch 
 git add .
 git commit -m "msg"
 git branch -M main
 git remote add origin <ssh link or http link >
 git push 
+git pull 
 git status
 ```
 ## DVC
