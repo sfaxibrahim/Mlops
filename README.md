@@ -32,3 +32,8 @@ import mlflow
 with mlflow.start_run():
   mlflow.log_param('parameter name', 'value')
   mlflow.log_metric('metric name', 1)
+
+  
+MLFLOW_TRACKING_URI="https://dagshub.com/sfaxibrahim/Mlops.mlflow"
+MLFLOW_TRACKING_USERNAME=sfaxibrahim
+MLFLOW_TRACKING_PASSWORD=token
