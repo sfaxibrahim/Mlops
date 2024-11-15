@@ -1,6 +1,6 @@
 import mlflow
 import dagshub
-from load_data import load_data
+from preprocess import load_data
 from modeling import train_and_log_model
 import xgboost as xgb
 from sklearn.ensemble import RandomForestClassifier

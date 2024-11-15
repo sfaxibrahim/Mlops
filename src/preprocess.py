@@ -14,4 +14,10 @@ def test_data(data):
     df=pd.read_csv(f"../data/test/{data}.csv")
     df.drop(columns=["Air_Leak","Reservoirs","COMP","Caudal_impulses","Pressure_switch","H1"],inplace=True)
     return df
+
+def backend_test(data):
+    df=pd.read_csv(f"{data}.csv")
+    df.drop(columns=["Air_Leak","Reservoirs","COMP","Caudal_impulses","Pressure_switch","H1"],inplace=True)
+    return df
+    
     
