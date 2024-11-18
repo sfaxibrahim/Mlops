@@ -8,14 +8,13 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.preprocessing import MinMaxScaler,StandardScaler
 from imblearn.over_sampling import SMOTE
 from time import time
-from mlflow.models.signature import infer_signature
 
 
 # Function to train and log a model with MLflow
 def train_and_log_model(model, model_name, param_distributions, X_train, X_test, y_train, y_test):
     # Set unique experiment name for each model
     experiment_name = "Air_leak_compressor"
-    
+
     try:
         mlflow.set_experiment(experiment_name)
     except mlflow.exceptions.MlflowException:
