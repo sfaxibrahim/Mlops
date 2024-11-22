@@ -35,7 +35,7 @@ def get_best_model(experiment_name, metric="test_accuracy"):
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World Mlops Project"}
 
 
 

@@ -1,3 +1,7 @@
+[core]
+    remote = myremote
 ['remote "origin"']
     url = s3://dvc
     endpointurl = https://dagshub.com/sfaxibrahim/Mlops.s3
+['remote "myremote"']
+    url = gdrive://1woOFBgrpWiI5iP1ZJIXPD2W_5zehWEnk
