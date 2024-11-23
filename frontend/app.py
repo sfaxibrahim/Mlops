@@ -43,7 +43,7 @@ def set_png_as_page_bg(png_file):
     '''
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-set_png_as_page_bg('image (1).png')
+set_png_as_page_bg('image.png')
 
 # Exemple de contenu de l'application
 st.title("MetroShield")
