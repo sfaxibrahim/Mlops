@@ -4,8 +4,20 @@ from fastapi import FastAPI,File, UploadFile
 import uvicorn
 import pandas as pd
 import io
+from fastapi.middleware.cors import CORSMiddleware
+
+
 
 app=FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permet toutes les origines, vous pouvez limiter ceci à des URL spécifiques
+    allow_credentials=True,
+    allow_methods=["*"],  # Permet toutes les méthodes HTTP
+    allow_headers=["*"],  # Permet tous les en-têtes
+)
+
 
 experiment_name = "Air_leak_compressor" 
 dagshub.init(repo_owner='sfaxibrahim', repo_name='Mlops', mlflow=True)
