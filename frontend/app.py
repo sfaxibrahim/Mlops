@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import requests  # Ajoutez cette ligne pour importer la bibliothèque requests
+import requests 
 import io
 import base64
 
