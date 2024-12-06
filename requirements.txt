@@ -10,3 +10,5 @@ imbalanced-learn==0.10.1
 dagshub==0.2.4
 FastApi
 Streamlit
+pytest
+pytest-asyncio

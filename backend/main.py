@@ -12,7 +12,7 @@ app=FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permet toutes les origines, vous pouvez limiter ceci à des URL spécifiques
+    allow_origins=["*"], 
     allow_credentials=True,
     allow_methods=["*"],  # Permet toutes les méthodes HTTP
     allow_headers=["*"],  # Permet tous les en-têtes
