@@ -26,22 +26,7 @@ async def test_predict(mock_csv_file):
 # Mock the mlflow.pyfunc.load_model to return the MockModel
     with patch("mlflow.pyfunc.load_model") as mock_load_model:
         mock_load_model.return_value = MockModel()
-<<<<<<< Tabnine <<<<<<<
-    def predict(self, data):#+
-        """#+
-        This function is responsible for making predictions using a trained model.#+
-    #+
-        Parameters:#+
-        data (pandas.DataFrame): A pandas DataFrame containing the features for which predictions are to be made.#+
-            The DataFrame should have the same columns as the training data used to train the model.#+
-    #+
-        Returns:#+
-        list: A list of predictions made by the model for the input data.#+
-            Each element in the list corresponds to a prediction for a single data point.#+
-        """#+
-        # Your implementation here#+
-        pass#+
->>>>>>> Tabnine >>>>>>># {"conversationId":"21bb8c06-9658-4ea3-af53-76558a2dff88","source":"instruct"}
+
 
         client =TestClient(app)
         res=client.post(

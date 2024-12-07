@@ -1,10 +1,9 @@
-import dagshub
-import mlflow
 from fastapi import FastAPI,File, UploadFile
 import uvicorn
 import pandas as pd
 import io
 from fastapi.middleware.cors import CORSMiddleware
+import pickle
 
 
 
@@ -14,35 +13,21 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["*"],  # Permet toutes les méthodes HTTP
-    allow_headers=["*"],  # Permet tous les en-têtes
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
+# Path to the model
+model_path = "../models/model.pkl"
+model = None  # Placeholder for the loaded model
 
-experiment_name = "Air_leak_compressor" 
-dagshub.init(repo_owner='sfaxibrahim', repo_name='Mlops', mlflow=True)
-mlflow.set_tracking_uri("https://dagshub.com/sfaxibrahim/Mlops.mlflow")
-
-
-def get_best_model(experiment_name, metric="test_accuracy"):
-    # Get the experiment ID
-    experiment = mlflow.get_experiment_by_name(experiment_name)
-    if not experiment:
-        raise ValueError(f"Experiment '{experiment_name}' not found!")
-    
-    experiment_id = experiment.experiment_id
-    
-    runs = mlflow.search_runs(experiment_ids=[experiment_id])
-    
-    best_run = runs.sort_values(f"metrics.{metric}", ascending=False).iloc[0]
-    
-    best_run_id = best_run["run_id"]
-    model_uri = f"runs:/{best_run_id}/model_artifact"
-    
-    return model_uri, best_run_id
-# model_uri, run_id = get_best_model(experiment_name, metric="test_accuracy")
-# print(f"Best model URI: {model_uri}")
-# print(f"Best run ID: {run_id}")
+# Load the model when the application starts
+try:
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+    print("Model loaded successfully.")
+except Exception as e:
+    raise RuntimeError(f"Failed to load model from {model_path}: {str(e)}")
 
 
 @app.get("/")
@@ -62,20 +47,19 @@ async def predict(file: UploadFile = File(...)):
     contents = await file.read()
     data = pd.read_csv(io.BytesIO(contents))
 
-    columns_to_drop = ["Air_Leak", "Reservoirs", "COMP", "Caudal_impulses", "Pressure_switch", "H1"]
+    columns_to_drop = ["Air_Leak","timestamp","Reservoirs", "COMP", "Caudal_impulses", "Pressure_switch", "H1"]
     if all(col in data.columns for col in columns_to_drop):
         data.drop(columns=columns_to_drop, inplace=True)
     else:
         return {"message": "Some required columns to drop are missing in the uploaded file!"}
 
 
-    try:
-        model_uri, run_id = get_best_model(experiment_name, metric="test_accuracy")
-        model = mlflow.pyfunc.load_model(model_uri)
-    except Exception as e:
-        return {"message": f"Error in retrieving the best model: {str(e)}"}
+    
+    with open(model_path, 'rb') as f:
+        model = pickle.load(f)
+      
+    
 
-    # Perform prediction
     try:
         predictions = model.predict(data)
     except Exception as e:
