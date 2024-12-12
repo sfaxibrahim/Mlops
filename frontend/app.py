@@ -1,8 +1,7 @@
 import streamlit as st
-import os
 import requests 
-import io
 import base64
+import os
 
 
 def get_base64_of_bin_file(bin_file):
@@ -49,23 +48,20 @@ set_png_as_page_bg('image.png')
 st.title("MetroShield")
 st.write("A robust solution ensuring safety and efficiency by detecting and addressing anomalies in metro operations.")
 
-# Permet à l'utilisateur de télécharger un fichier
 uploaded_file = st.file_uploader("Upload file", type=["csv"])
 
-# Variable pour afficher le texte du résultat de la prédiction
 prediction_result = ""
 
+BACKEND_URL = os.environ.get('BACKEND_URL', 'http://backend:8000')
+
 if uploaded_file is not None:
-    # Afficher un message indiquant que le fichier a bien été téléchargé
     st.write("File uploaded successfully!")
 
-    # Convertir le fichier en un format compatible pour l'envoi à l'API
     file_bytes = uploaded_file.read()
 
-    # Envoi de la requête POST à l'API FastAPI pour effectuer la prédiction
     try:
         response = requests.post(
-            "http://localhost:8000/predict",  # URL de l'API FastAPI
+            f"{BACKEND_URL}/predict",
             files={"file": ("data.csv", file_bytes, "text/csv")}
         )
 
