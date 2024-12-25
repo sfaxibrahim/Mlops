@@ -29,7 +29,7 @@ def train_and_log_model(model, model_name, param_distributions, X_train, X_test,
 
         # Define the pipeline with scaler and model
         pipeline = Pipeline([
-            ('scaler', MinMaxScaler()),
+            ('scaler', StandardScaler()),
             (model_name, model)
         ])
         
