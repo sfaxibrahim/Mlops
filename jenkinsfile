@@ -7,5 +7,32 @@ pipeline {
             }
         }
         // Other stages
+                stage('Start Services') {
+            steps {
+                script {
+                    sh 'docker-compose up -d'
+                }
+            }
+        }
+
+        stage('Teardown Services') {
+            steps {
+                script {
+                    sh 'docker-compose down'
+                }
+            }
+        }
+    }
+
+
+    post {
+        always {
+            script {
+                sh 'docker-compose down'
+            }
+        }
     }
 }
+    
+
+
