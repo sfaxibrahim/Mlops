@@ -3,18 +3,9 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/sfaxibrahim/Mlops.git'
+                git branch: 'master', url: 'https://github.com/sfaxibrahim/Mlops.git'
             }
         }
-        stage('Build Services') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml build'
-            }
-        }
-        stage('Deploy Services') {
-            steps {
-                sh 'docker-compose -f docker-compose.yml up -d'
-            }
-        }
+        // Other stages
     }
 }
