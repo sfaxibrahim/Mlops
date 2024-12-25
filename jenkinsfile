@@ -7,10 +7,10 @@ pipeline {
             }
         }
         // Other stages
-                stage('Start Services') {
+        stage('Start Services') {
             steps {
                 script {
-                    sh 'docker-compose up -d'
+                    bat 'docker-compose up -d'
                 }
             }
         }
@@ -18,7 +18,7 @@ pipeline {
         stage('Teardown Services') {
             steps {
                 script {
-                    sh 'docker-compose down'
+                    bat 'docker-compose down'
                 }
             }
         }
@@ -28,7 +28,7 @@ pipeline {
     post {
         always {
             script {
-                sh 'docker-compose down'
+                bat 'docker-compose down'
             }
         }
     }
