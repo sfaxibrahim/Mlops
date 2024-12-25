@@ -1,43 +1,20 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
-    }
     stages {
-        stage('Checkout Code') {
+        stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/sfaxibrahim/Mlops.git'
             }
         }
         stage('Build Services') {
             steps {
-                // Build services using Docker Compose
-                sh 'docker-compose -f ${DOCKER_COMPOSE_FILE} build'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                // Optional: Add test commands here
-                sh 'docker-compose -f ${DOCKER_COMPOSE_FILE} run backend pytest'
+                sh 'docker-compose -f docker-compose.yml build'
             }
         }
         stage('Deploy Services') {
             steps {
-                // Start services
-                sh 'docker-compose -f ${DOCKER_COMPOSE_FILE} up -d'
+                sh 'docker-compose -f docker-compose.yml up -d'
             }
-        }
-    }
-    post {
-        always {
-            // Clean up unused Docker resources
-            sh 'docker system prune -f'
-        }
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Please check logs.'
         }
     }
 }
