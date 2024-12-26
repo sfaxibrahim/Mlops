@@ -5,9 +5,8 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
-    environment:
-      - MODEL_URL=https://dagshub.com/sfaxibrahim/Mlops/src/master/models/model.pkl
-      - MODEL_PATH=/app/models/model.pkl
+      args:
+        MODEL_URL: https://dagshub.com/sfaxibrahim/Mlops/src/master/models/model.pkl
     ports:
       - "8000:8000"
     restart: unless-stopped
