@@ -1,41 +1,37 @@
 pipeline {
     agent any
-    
+
     stages {
+        stage('Pre-check Docker') {
+            steps {
+                script {
+                    bat 'docker info || exit 1'
+                }
+            }
+        }
         stage('Clone Repository') {
             steps {
                 git branch: 'master', url: 'https://github.com/sfaxibrahim/Mlops.git'
             }
         }
-        
         stage('Build and Start Services') {
             steps {
                 script {
-                    // Force rebuild images and start services
                     bat 'docker-compose build --no-cache'
-                    bat 'docker-compose up -d'
-                    
-                    // Wait for services to be healthy
+                    bat 'docker-compose up -d || exit 1'
                     bat 'timeout /t 30 /nobreak'
                 }
             }
         }
-        
         stage('Verify Services') {
             steps {
                 script {
-                    // Check if services are running
-                    bat 'docker-compose ps'
-                    
-                    // Test backend availability
-                    bat 'curl http://localhost:8000'
-                    
-                    // Test frontend availability
-                    bat 'curl http://localhost:8501'
+                    bat 'docker-compose ps || exit 1'
+                    bat 'curl http://localhost:8000 || exit 1'
+                    bat 'curl http://localhost:8501 || exit 1'
                 }
             }
         }
-        
         stage('Teardown Services') {
             steps {
                 script {
@@ -44,11 +40,10 @@ pipeline {
             }
         }
     }
-    
+
     post {
         always {
             script {
-                // Ensure cleanup even if pipeline fails
                 bat 'docker-compose down --remove-orphans'
                 bat 'docker system prune -f'
             }
